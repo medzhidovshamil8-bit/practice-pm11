@@ -1,0 +1,576 @@
+[
+  {
+    "query": "Q01. Каталог туров с направлениями",
+    "sql": "SELECT t.tour_id,t.name,d.country,d.city,t.nights FROM tour t JOIN destination d USING(destination_id) ORDER BY t.tour_id",
+    "columns": [
+      "tour_id",
+      "name",
+      "country",
+      "city",
+      "nights"
+    ],
+    "rows": [
+      [
+        1,
+        "Море в Анталье",
+        "Турция",
+        "Анталья",
+        7
+      ],
+      [
+        2,
+        "Красное море",
+        "Египет",
+        "Хургада",
+        7
+      ],
+      [
+        3,
+        "Выходные в Сочи",
+        "Россия",
+        "Сочи",
+        3
+      ],
+      [
+        4,
+        "История Казани",
+        "Россия",
+        "Казань",
+        4
+      ],
+      [
+        5,
+        "Знакомство с Дубаем",
+        "ОАЭ",
+        "Дубай",
+        5
+      ],
+      [
+        6,
+        "Черноморский отдых",
+        "Россия",
+        "Сочи",
+        7
+      ]
+    ]
+  },
+  {
+    "query": "Q02. Выезды ноября по цене",
+    "sql": "SELECT departure_id,start_date,price_kopecks/100.0 AS price_rub FROM departure WHERE start_date BETWEEN '2026-11-01' AND '2026-11-30' ORDER BY price_kopecks,departure_id",
+    "columns": [
+      "departure_id",
+      "start_date",
+      "price_rub"
+    ],
+    "rows": [
+      [
+        4,
+        "2026-11-05",
+        25000.0
+      ],
+      [
+        5,
+        "2026-11-07",
+        30000.0
+      ],
+      [
+        7,
+        "2026-11-20",
+        50000.0
+      ],
+      [
+        3,
+        "2026-11-15",
+        75000.0
+      ],
+      [
+        1,
+        "2026-11-10",
+        85000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q03. Клиенты без электронной почты",
+    "sql": "SELECT client_id,full_name,phone FROM client WHERE email IS NULL ORDER BY client_id",
+    "columns": [
+      "client_id",
+      "full_name",
+      "phone"
+    ],
+    "rows": [
+      [
+        6,
+        "Соколов Илья",
+        "+70000000006"
+      ]
+    ]
+  },
+  {
+    "query": "Q04. Три самых дорогих выезда",
+    "sql": "SELECT departure_id,price_kopecks/100.0 AS price_rub FROM departure ORDER BY price_kopecks DESC,departure_id LIMIT 3",
+    "columns": [
+      "departure_id",
+      "price_rub"
+    ],
+    "rows": [
+      [
+        6,
+        110000.0
+      ],
+      [
+        2,
+        90000.0
+      ],
+      [
+        1,
+        85000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q05. Количество и стоимость активных бронирований",
+    "sql": "SELECT COUNT(*) AS bookings,SUM(tourists) AS tourists,SUM(total_kopecks)/100.0 AS contract_rub FROM booking WHERE status<>'cancelled'",
+    "columns": [
+      "bookings",
+      "tourists",
+      "contract_rub"
+    ],
+    "rows": [
+      [
+        9,
+        16,
+        980000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q06. Продажи по сотрудникам включая нулевые",
+    "sql": "SELECT e.employee_id,e.full_name,COUNT(b.booking_id) AS bookings,COALESCE(SUM(b.total_kopecks),0)/100.0 AS contract_rub FROM employee e LEFT JOIN booking b ON b.employee_id=e.employee_id AND b.status<>'cancelled' GROUP BY e.employee_id,e.full_name ORDER BY e.employee_id",
+    "columns": [
+      "employee_id",
+      "full_name",
+      "bookings",
+      "contract_rub"
+    ],
+    "rows": [
+      [
+        1,
+        "Волкова Ольга",
+        4,
+        445000.0
+      ],
+      [
+        2,
+        "Морозов Павел",
+        5,
+        535000.0
+      ],
+      [
+        3,
+        "Белова Ирина",
+        0,
+        0.0
+      ]
+    ]
+  },
+  {
+    "query": "Q07. Повторные клиенты",
+    "sql": "SELECT c.client_id,c.full_name,COUNT(*) AS bookings FROM client c JOIN booking b USING(client_id) WHERE b.status<>'cancelled' GROUP BY c.client_id,c.full_name HAVING COUNT(*)>=2 ORDER BY c.client_id",
+    "columns": [
+      "client_id",
+      "full_name",
+      "bookings"
+    ],
+    "rows": [
+      [
+        1,
+        "Иванова Анна",
+        2
+      ],
+      [
+        2,
+        "Петров Максим",
+        2
+      ],
+      [
+        3,
+        "Смирнова Елена",
+        2
+      ],
+      [
+        4,
+        "Ким Алексей",
+        2
+      ]
+    ]
+  },
+  {
+    "query": "Q08. Подробности бронирований",
+    "sql": "SELECT b.booking_id,c.full_name AS client,e.full_name AS manager,t.name,d.start_date,b.status,b.total_kopecks/100.0 AS total_rub FROM booking b JOIN client c USING(client_id) JOIN employee e USING(employee_id) JOIN departure d USING(departure_id) JOIN tour t USING(tour_id) ORDER BY b.booking_id",
+    "columns": [
+      "booking_id",
+      "client",
+      "manager",
+      "name",
+      "start_date",
+      "status",
+      "total_rub"
+    ],
+    "rows": [
+      [
+        1,
+        "Иванова Анна",
+        "Волкова Ольга",
+        "Море в Анталье",
+        "2026-11-10",
+        "confirmed",
+        170000.0
+      ],
+      [
+        2,
+        "Петров Максим",
+        "Морозов Павел",
+        "Красное море",
+        "2026-11-15",
+        "confirmed",
+        75000.0
+      ],
+      [
+        3,
+        "Смирнова Елена",
+        "Волкова Ольга",
+        "Выходные в Сочи",
+        "2026-11-05",
+        "confirmed",
+        75000.0
+      ],
+      [
+        4,
+        "Иванова Анна",
+        "Морозов Павел",
+        "История Казани",
+        "2026-11-07",
+        "new",
+        30000.0
+      ],
+      [
+        5,
+        "Ким Алексей",
+        "Морозов Павел",
+        "Знакомство с Дубаем",
+        "2026-12-01",
+        "confirmed",
+        220000.0
+      ],
+      [
+        6,
+        "Орлова Мария",
+        "Волкова Ольга",
+        "Черноморский отдых",
+        "2026-11-20",
+        "cancelled",
+        100000.0
+      ],
+      [
+        7,
+        "Петров Максим",
+        "Волкова Ольга",
+        "Море в Анталье",
+        "2026-12-10",
+        "new",
+        175000.0
+      ],
+      [
+        8,
+        "Смирнова Елена",
+        "Морозов Павел",
+        "Красное море",
+        "2026-11-15",
+        "confirmed",
+        150000.0
+      ],
+      [
+        9,
+        "Ким Алексей",
+        "Волкова Ольга",
+        "Выходные в Сочи",
+        "2026-11-05",
+        "confirmed",
+        25000.0
+      ],
+      [
+        10,
+        "Орлова Мария",
+        "Морозов Павел",
+        "История Казани",
+        "2026-11-07",
+        "new",
+        60000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q09. Остатки к оплате без удвоения сумм",
+    "sql": "WITH paid AS (SELECT booking_id,SUM(amount_kopecks) AS amount FROM payment GROUP BY booking_id) SELECT b.booking_id,b.total_kopecks/100.0 AS contract_rub,COALESCE(p.amount,0)/100.0 AS paid_rub,(b.total_kopecks-COALESCE(p.amount,0))/100.0 AS debt_rub FROM booking b LEFT JOIN paid p USING(booking_id) WHERE b.status<>'cancelled' ORDER BY b.booking_id",
+    "columns": [
+      "booking_id",
+      "contract_rub",
+      "paid_rub",
+      "debt_rub"
+    ],
+    "rows": [
+      [
+        1,
+        170000.0,
+        170000.0,
+        0.0
+      ],
+      [
+        2,
+        75000.0,
+        75000.0,
+        0.0
+      ],
+      [
+        3,
+        75000.0,
+        25000.0,
+        50000.0
+      ],
+      [
+        4,
+        30000.0,
+        0.0,
+        30000.0
+      ],
+      [
+        5,
+        220000.0,
+        100000.0,
+        120000.0
+      ],
+      [
+        7,
+        175000.0,
+        0.0,
+        175000.0
+      ],
+      [
+        8,
+        150000.0,
+        150000.0,
+        0.0
+      ],
+      [
+        9,
+        25000.0,
+        25000.0,
+        0.0
+      ],
+      [
+        10,
+        60000.0,
+        0.0,
+        60000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q10. Выезды дороже средней цены",
+    "sql": "SELECT departure_id,price_kopecks/100.0 AS price_rub FROM departure WHERE price_kopecks>(SELECT AVG(price_kopecks) FROM departure) ORDER BY departure_id",
+    "columns": [
+      "departure_id",
+      "price_rub"
+    ],
+    "rows": [
+      [
+        1,
+        85000.0
+      ],
+      [
+        2,
+        90000.0
+      ],
+      [
+        3,
+        75000.0
+      ],
+      [
+        6,
+        110000.0
+      ],
+      [
+        8,
+        80000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q11. Клиенты без бронирований",
+    "sql": "SELECT c.client_id,c.full_name FROM client c WHERE NOT EXISTS(SELECT 1 FROM booking b WHERE b.client_id=c.client_id) ORDER BY c.client_id",
+    "columns": [
+      "client_id",
+      "full_name"
+    ],
+    "rows": [
+      [
+        6,
+        "Соколов Илья"
+      ]
+    ]
+  },
+  {
+    "query": "Q12. Выезды без активных бронирований",
+    "sql": "SELECT d.departure_id,t.name,d.start_date FROM departure d JOIN tour t USING(tour_id) WHERE NOT EXISTS(SELECT 1 FROM booking b WHERE b.departure_id=d.departure_id AND b.status<>'cancelled') ORDER BY d.departure_id",
+    "columns": [
+      "departure_id",
+      "name",
+      "start_date"
+    ],
+    "rows": [
+      [
+        7,
+        "Черноморский отдых",
+        "2026-11-20"
+      ],
+      [
+        8,
+        "Красное море",
+        "2026-12-15"
+      ]
+    ]
+  },
+  {
+    "query": "Q13. Поступления по способам оплаты",
+    "sql": "SELECT method,COUNT(*) AS payments,SUM(amount_kopecks)/100.0 AS paid_rub FROM payment GROUP BY method ORDER BY method",
+    "columns": [
+      "method",
+      "payments",
+      "paid_rub"
+    ],
+    "rows": [
+      [
+        "bank",
+        2,
+        170000.0
+      ],
+      [
+        "card",
+        3,
+        325000.0
+      ],
+      [
+        "cash",
+        2,
+        50000.0
+      ]
+    ]
+  },
+  {
+    "query": "Q14. Загрузка выездов и свободные места",
+    "sql": "SELECT d.departure_id,d.capacity,COALESCE(SUM(b.tourists),0) AS reserved,d.capacity-COALESCE(SUM(b.tourists),0) AS available FROM departure d LEFT JOIN booking b ON b.departure_id=d.departure_id AND b.status<>'cancelled' GROUP BY d.departure_id,d.capacity ORDER BY d.departure_id",
+    "columns": [
+      "departure_id",
+      "capacity",
+      "reserved",
+      "available"
+    ],
+    "rows": [
+      [
+        1,
+        20,
+        2,
+        18
+      ],
+      [
+        2,
+        20,
+        2,
+        18
+      ],
+      [
+        3,
+        15,
+        3,
+        12
+      ],
+      [
+        4,
+        10,
+        4,
+        6
+      ],
+      [
+        5,
+        12,
+        3,
+        9
+      ],
+      [
+        6,
+        10,
+        2,
+        8
+      ],
+      [
+        7,
+        16,
+        0,
+        16
+      ],
+      [
+        8,
+        15,
+        0,
+        15
+      ]
+    ]
+  },
+  {
+    "query": "Q15. Классификация оплаты через CASE",
+    "sql": "WITH paid AS (SELECT booking_id,SUM(amount_kopecks) AS amount FROM payment GROUP BY booking_id) SELECT b.booking_id,CASE WHEN COALESCE(p.amount,0)=0 THEN 'Не оплачено' WHEN p.amount<b.total_kopecks THEN 'Частично' WHEN p.amount=b.total_kopecks THEN 'Оплачено' ELSE 'Переплата' END AS payment_state FROM booking b LEFT JOIN paid p USING(booking_id) WHERE b.status<>'cancelled' ORDER BY b.booking_id",
+    "columns": [
+      "booking_id",
+      "payment_state"
+    ],
+    "rows": [
+      [
+        1,
+        "Оплачено"
+      ],
+      [
+        2,
+        "Оплачено"
+      ],
+      [
+        3,
+        "Частично"
+      ],
+      [
+        4,
+        "Не оплачено"
+      ],
+      [
+        5,
+        "Частично"
+      ],
+      [
+        7,
+        "Не оплачено"
+      ],
+      [
+        8,
+        "Оплачено"
+      ],
+      [
+        9,
+        "Оплачено"
+      ],
+      [
+        10,
+        "Не оплачено"
+      ]
+    ]
+  }
+]
