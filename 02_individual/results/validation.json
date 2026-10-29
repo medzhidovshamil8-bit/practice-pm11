@@ -1,0 +1,72 @@
+{
+  "sqlite_version": "3.53.1",
+  "import": [
+    {
+      "table": "client",
+      "inserted": 6
+    },
+    {
+      "table": "employee",
+      "inserted": 3
+    },
+    {
+      "table": "tour_operator",
+      "inserted": 3
+    },
+    {
+      "table": "destination",
+      "inserted": 5
+    },
+    {
+      "table": "tour",
+      "inserted": 6
+    },
+    {
+      "table": "departure",
+      "inserted": 8
+    },
+    {
+      "table": "booking",
+      "inserted": 10
+    },
+    {
+      "table": "payment",
+      "inserted": 7
+    }
+  ],
+  "rejected": [
+    {
+      "line": 2,
+      "error": "FOREIGN KEY constraint failed"
+    },
+    {
+      "line": 3,
+      "error": "CHECK constraint failed: tourists>0"
+    },
+    {
+      "line": 4,
+      "error": "UNIQUE constraint failed: booking.booking_id"
+    },
+    {
+      "line": 5,
+      "error": "CHECK constraint failed: date(booked_on,'+0 days') IS NOT NULL AND date(booked_on,'+0 days')=booked_on"
+    },
+    {
+      "line": 6,
+      "error": "CHECK constraint failed: status IN ('new','confirmed','cancelled','completed')"
+    }
+  ],
+  "integrity": "ok",
+  "foreign_key_errors": 0,
+  "index_before": [
+    "SCAN departure"
+  ],
+  "index_after": [
+    "SEARCH departure USING INDEX idx_departure_date (start_date=?)"
+  ],
+  "index_booking": [
+    "SEARCH booking USING INDEX idx_booking_client_date (client_id=? AND booked_on>?)"
+  ],
+  "queries_passed": 15,
+  "business_checks": "9 активных бронирований, 16 туристов, 980000 руб.; долг 435000 руб.; клиент 6 без бронирований; удаление клиента 1 запрещено"
+}
