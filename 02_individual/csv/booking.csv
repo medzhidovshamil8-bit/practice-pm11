@@ -1,0 +1,11 @@
+booking_id,client_id,employee_id,departure_id,booked_on,tourists,total_kopecks,status
+1,1,1,1,2026-10-01,2,17000000,confirmed
+2,2,2,3,2026-10-02,1,7500000,confirmed
+3,3,1,4,2026-10-03,3,7500000,confirmed
+4,1,2,5,2026-10-05,1,3000000,new
+5,4,2,6,2026-10-08,2,22000000,confirmed
+6,5,1,7,2026-10-10,2,10000000,cancelled
+7,2,1,2,2026-10-12,2,17500000,new
+8,3,2,3,2026-10-13,2,15000000,confirmed
+9,4,1,4,2026-10-15,1,2500000,confirmed
+10,5,2,5,2026-10-16,2,6000000,new
