@@ -1,0 +1,22 @@
+{
+  "rows": 60000,
+  "repetitions": 40,
+  "without_index_median_ms": 2.2133,
+  "with_index_median_ms": 0.21525,
+  "without_index_plan": [
+    [
+      3,
+      0,
+      216,
+      "SCAN benchmark"
+    ]
+  ],
+  "with_index_plan": [
+    [
+      3,
+      0,
+      53,
+      "SEARCH benchmark USING COVERING INDEX idx_benchmark_price (price=?)"
+    ]
+  ]
+}

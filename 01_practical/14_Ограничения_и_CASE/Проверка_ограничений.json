@@ -1,0 +1,4 @@
+[
+  "Отрицательная цена: Отклонено: CHECK constraint failed: price>=0.",
+  "Дубликат имени: Отклонено: UNIQUE constraint failed: product.name."
+]

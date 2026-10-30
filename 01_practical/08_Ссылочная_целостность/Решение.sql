@@ -1,0 +1,17 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE client_cascade(id INTEGER PRIMARY KEY,name TEXT NOT NULL);
+CREATE TABLE order_cascade(id INTEGER PRIMARY KEY,client_id INTEGER NOT NULL REFERENCES client_cascade(id) ON DELETE CASCADE);
+INSERT INTO client_cascade VALUES(1,'Иванов'),(2,'Петров');
+INSERT INTO order_cascade VALUES(1,1),(2,1);
+DELETE FROM client_cascade WHERE id=1;
+CREATE TABLE client_restrict(id INTEGER PRIMARY KEY,name TEXT NOT NULL);
+CREATE TABLE order_restrict(id INTEGER PRIMARY KEY,client_id INTEGER NOT NULL REFERENCES client_restrict(id) ON DELETE RESTRICT);
+INSERT INTO client_restrict VALUES(1,'Иванов'); INSERT INTO order_restrict VALUES(1,1);
+CREATE TABLE category(id INTEGER PRIMARY KEY,name TEXT NOT NULL);
+CREATE TABLE product(id INTEGER PRIMARY KEY,name TEXT NOT NULL,category_id INTEGER REFERENCES category(id) ON DELETE SET NULL);
+INSERT INTO category VALUES(1,'Еда'); INSERT INTO product VALUES(1,'Хлеб',1); DELETE FROM category WHERE id=1;
+CREATE TABLE shop_order(id INTEGER PRIMARY KEY);
+CREATE TABLE order_product(order_id INTEGER REFERENCES shop_order(id),product_id INTEGER REFERENCES product(id),PRIMARY KEY(order_id,product_id));
+INSERT INTO shop_order VALUES(1); INSERT INTO order_product VALUES(1,1);
+CREATE TABLE employee(id INTEGER PRIMARY KEY,name TEXT NOT NULL,manager_id INTEGER REFERENCES employee(id));
+INSERT INTO employee VALUES(1,'Руководитель',NULL),(2,'Сотрудник',1);

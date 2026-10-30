@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Сохраненные товары",
+    "columns": [
+      "id",
+      "title",
+      "price",
+      "category_id",
+      "created"
+    ],
+    "rows": [
+      [
+        1,
+        "Хлеб",
+        40.0,
+        1,
+        "2024-01-01"
+      ],
+      [
+        2,
+        "Молоко",
+        60.0,
+        1,
+        "2024-01-01"
+      ]
+    ]
+  },
+  {
+    "name": "Схема",
+    "columns": [
+      "name",
+      "sql"
+    ],
+    "rows": [
+      [
+        "categories",
+        "CREATE TABLE \"categories\"(id INTEGER PRIMARY KEY,name TEXT NOT NULL)"
+      ],
+      [
+        "product",
+        "CREATE TABLE \"product\"(id INTEGER PRIMARY KEY,title TEXT NOT NULL,price REAL NOT NULL CHECK(price>0),category_id INTEGER REFERENCES categories(id),created TEXT NOT NULL DEFAULT '2024-01-01')"
+      ]
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "name": "План по цене",
+    "columns": [
+      "id",
+      "parent",
+      "notused",
+      "detail"
+    ],
+    "rows": [
+      [
+        2,
+        0,
+        189,
+        "SEARCH product USING COVERING INDEX idx_product_price (price>?)"
+      ]
+    ]
+  },
+  {
+    "name": "План по LOWER",
+    "columns": [
+      "id",
+      "parent",
+      "notused",
+      "detail"
+    ],
+    "rows": [
+      [
+        3,
+        0,
+        53,
+        "SEARCH product USING COVERING INDEX idx_product_lower_name (<expr>=?)"
+      ]
+    ]
+  },
+  {
+    "name": "Индексы",
+    "columns": [
+      "name"
+    ],
+    "rows": [
+      [
+        "idx_product_category_price"
+      ],
+      [
+        "idx_product_lower_name"
+      ],
+      [
+        "idx_product_name"
+      ],
+      [
+        "idx_product_name_category"
+      ],
+      [
+        "idx_product_price"
+      ],
+      [
+        "idx_product_unique_name"
+      ],
+      [
+        "sqlite_autoindex_category_1"
+      ]
+    ]
+  }
+]

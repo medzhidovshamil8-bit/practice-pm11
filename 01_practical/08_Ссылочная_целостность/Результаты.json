@@ -1,0 +1,58 @@
+[
+  {
+    "name": "После CASCADE",
+    "columns": [
+      "id",
+      "client_id"
+    ],
+    "rows": []
+  },
+  {
+    "name": "После SET NULL",
+    "columns": [
+      "id",
+      "name",
+      "category_id"
+    ],
+    "rows": [
+      [
+        1,
+        "Хлеб",
+        null
+      ]
+    ]
+  },
+  {
+    "name": "M:N",
+    "columns": [
+      "order_id",
+      "product_id"
+    ],
+    "rows": [
+      [
+        1,
+        1
+      ]
+    ]
+  },
+  {
+    "name": "Иерархия",
+    "columns": [
+      "id",
+      "name",
+      "manager_id"
+    ],
+    "rows": [
+      [
+        1,
+        "Руководитель",
+        null
+      ],
+      [
+        2,
+        "Сотрудник",
+        1
+      ]
+    ]
+  }
+]
